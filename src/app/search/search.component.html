@@ -1,0 +1,55 @@
+<div class="search-container position-relative" (clickOutside)="onClickOutside($event)">
+    <div class="input-group">
+        <input class="form-control" type="search" [placeholder]="placeholder"
+            [(ngModel)]="searchTerm" (input)="onSearchInput($event)" (keyup.enter)="performFullSearch()"
+            name="searchTerm" aria-label="Search">
+        <button class="btn btn-primary" (click)="performFullSearch()">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+
+    <!-- Dropdown de resultados -->
+    <div class="search-dropdown" *ngIf="showDropdown">
+        <!-- Libros -->
+        <div class="dropdown-section" *ngIf="searchResults.libros && searchResults.libros.length > 0">
+            <h6 class="dropdown-header">Libros</h6>
+            <div class="dropdown-item" *ngFor="let libro of searchResults.libros.slice(0, 3)"
+                (click)="selectResult('libro', libro)">
+                <div class="d-flex align-items-center">
+                    <img [src]="libro.imagen || '/img/libroEjemplo.jpg'" class="dropdown-thumbnail me-2"
+                        [alt]="'Imagen de '+libro.titulo">
+                    <div>
+                        <div class="item-title">{{libro.titulo}}</div>
+                        <small class="text-muted" *ngIf="libro.autores && libro.autores.length > 0">
+                            {{libro.autores[0]?.nombre}} {{libro.autores[0]?.apellido}}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Autores -->
+        <div class="dropdown-section" *ngIf="searchResults.autores && searchResults.autores.length > 0">
+            <h6 class="dropdown-header">Autores</h6>
+            <div class="dropdown-item" *ngFor="let autor of searchResults.autores.slice(0, 2)"
+                (click)="selectResult('autor', autor)">
+                {{autor.nombre}} {{autor.apellido}}
+            </div>
+        </div>
+
+        <!-- Géneros -->
+        <div class="dropdown-section" *ngIf="searchResults.generos && searchResults.generos.length > 0">
+            <h6 class="dropdown-header">Géneros</h6>
+            <div class="dropdown-item" *ngFor="let genero of searchResults.generos.slice(0, 2)"
+                (click)="selectResult('genero', genero)">
+                {{genero.nombre}}
+            </div>
+        </div>
+
+        <!-- Ver todos los resultados -->
+        <div class="dropdown-divider" *ngIf="hasResults(searchResults)"></div>
+        <div class="dropdown-item text-primary" (click)="performFullSearch()" *ngIf="hasResults(searchResults)">
+            Ver todos los resultados
+        </div>
+    </div>
+</div>

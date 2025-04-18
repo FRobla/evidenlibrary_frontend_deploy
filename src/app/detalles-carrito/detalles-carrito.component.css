@@ -1,0 +1,40 @@
+/* Estilo para el contenedor de PayPal */
+.paypal-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.card-header.bg-primary {
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+}
+
+.card-body .ngx-paypal {
+    margin-top: 20px;
+}
+
+/* Efecto de transición en botones */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo adicional para la tabla y botones */
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}

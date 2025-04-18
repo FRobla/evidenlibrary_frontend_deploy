@@ -1,0 +1,25 @@
+.detalles-container {
+    background-color: #f8f9fa;
+    margin-top: 1rem;
+}
+
+.table-responsive {
+    margin-bottom: 0;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #e9ecef;
+}
+
+.list-group-item {
+    border: 1px solid rgba(0,0,0,.125);
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    margin-left: auto;
+}

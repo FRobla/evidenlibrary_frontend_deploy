@@ -1,0 +1,40 @@
+h2 {
+    text-decoration: underline;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.stars-container {
+    min-width: 100px;
+}
+
+.star-rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+.star-rating i {
+    margin-right: 2px;
+}
+
+.bi-quote {
+    opacity: 0.5;
+    font-size: 0.9em;
+}
+
+.card-text {
+    font-style: italic;
+    color: #666;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}

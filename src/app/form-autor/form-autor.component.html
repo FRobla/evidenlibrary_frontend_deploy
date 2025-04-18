@@ -1,0 +1,83 @@
+<div class="container py-5">
+    <ul class="alert alert-danger" *ngIf="errors?.length != 0">
+        <div class="container">
+            <li *ngFor="let err of errors">{{ err }}</li>
+        </div>
+    </ul>
+
+    <div *ngIf="authService.esAdmin" class="card shadow-lg">
+        <div class="card-header">
+            <h5 *ngIf="!autor.id">Crear un Autor</h5>
+            <h4 *ngIf="autor.id">Editar un Autor</h4>
+        </div>
+        <div class="card-body">
+            <form #autoresForm="ngForm">
+                <!-- Campo Nombre -->
+                <div class="form-group row mb-4">
+                    <label for="nombre" class="col-sm-3 col-form-label">Nombre:</label>
+                    <div class="col-sm-9">
+                        <input type="text" 
+                               class="form-control form-control-lg" 
+                               [(ngModel)]="autor.nombre" 
+                               name="nombre" 
+                               #nombre="ngModel" 
+                               placeholder="Nombre del autor..."
+                               minlength="5" maxlength="50" 
+                               required>
+                        <div class="alert alert-danger mt-2" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                            <div *ngIf="nombre.errors?.['required']">
+                                El nombre es requerido
+                            </div>
+                            <div *ngIf="nombre.errors?.['minlength']">
+                                El nombre debe tener al menos 5 caracteres
+                            </div>
+                            <div *ngIf="nombre.errors?.['maxlength']">
+                                El nombre debe tener menos de 50 caracteres
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo Biografía -->
+                <div class="form-group row mb-4">
+                    <label for="biografia" class="col-sm-3 col-form-label">Biografía:</label>
+                    <div class="col-sm-9">
+                        <textarea 
+                               class="form-control form-control-lg" 
+                               [(ngModel)]="autor.biografia" 
+                               name="biografia" 
+                               #biografia="ngModel" 
+                               rows="3" 
+                               placeholder="Biografía del autor..."
+                               minlength="10" maxlength="250" r
+                               equired></textarea>
+                        <div class="alert alert-danger mt-2" *ngIf="biografia.invalid && (biografia.dirty || biografia.touched)">
+                            <div *ngIf="biografia.errors?.['required']">
+                                La biografía es requerida
+                            </div>
+                            <div *ngIf="biografia.errors?.['minlength']">
+                                La biografía debe tener al menos 10 caracteres
+                            </div>
+                            <div *ngIf="biografia.errors?.['maxlength']">
+                                La biografía debe tener menos de 250 caracteres
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="form-group row mt-5">
+                    <div class="col-sm-9 offset-sm-3">
+                        <button class="btn btn-success me-3" role="button" (click)="create()" *ngIf="!autor.id" [disabled]="!autoresForm.form.valid">
+                            <i class="bi bi-plus-lg"></i> Crear
+                        </button>
+            
+                        <button class="btn btn-warning" role="button" (click)="update()" *ngIf="autor.id" [disabled]="!autoresForm.form.valid">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>            
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

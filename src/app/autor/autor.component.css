@@ -1,0 +1,41 @@
+.container2 {
+    margin: 20px;
+}
+
+h2 {
+    text-decoration: underline;
+}
+
+/* Estilo general para los elementos de la lista */
+ul.list-unstyled {
+    padding-left: 0;
+}
+
+/* Estilo de los items de la lista */
+ul.list-unstyled li {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f8f9fa; /* Fondo claro */
+}
+
+/* Efecto hover sobre los items */
+ul.list-unstyled li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos de los autores */
+ul.list-unstyled li h4 {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* Biografía de los autores */
+ul.list-unstyled li p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Añadir margen entre los elementos de la lista */
+ul.list-unstyled li + li {
+    margin-top: 10px;
+}

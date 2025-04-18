@@ -1,0 +1,253 @@
+<div class="container my-5">
+    <div class="card shadow book-details">
+        <div class="card-header bg-transparent border-0">
+            <button class="btn btn-outline-secondary m-3" (click)="irAtras()">
+                <i class="bi bi-arrow-left me-2"></i>Volver
+            </button>
+            <div class="position-absolute top-0 end-0 m-3">
+                <button class="btn btn-outline-secondary me-2" *ngFor="let genero of libro.generos"
+                    (click)="verLibrosGenero(genero.id)">{{genero.nombre}}
+                </button>
+            </div>
+            <h2 class="text-center my-3">Detalles del Libro</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="row m-1">
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <div class="position-relative">
+                        <img [src]="libro.imagen ? libro.imagen : '/img/libroEjemplo.jpg'"
+                            [id]="'imagen-libro-' + libro.id" class="img-fluid book-cover"
+                            alt="Imagen de {{ libro.titulo }}"
+                            [style.view-transition-name]="'imagen-libro-' + libro.id">
+                    </div>
+                </div>
+
+
+                <div class="col-md-8">
+                    <!-- Información del libro -->
+                    <h3 class="book-title d-flex align-items-center"
+                        [style.view-transition-name]="'titulo-libro-' + libro.id">
+                        {{ libro.titulo }}
+                        <!-- Icono de tick para libros comprados -->
+                        <i *ngIf="authService.estaLogueado() && haCompradoLibro(libro.id)"
+                            class="bi bi-patch-check-fill text-primary fs-4 ms-2"></i>
+                    </h3>
+                    <p class="text-muted autor" *ngIf="libro.autores.length > 0"
+                        [style.view-transition-name]="'autor-libro-' + libro.autores[0].id">
+                        Por <strong (click)="verLibrosAutor(libro.autores[0].id)">{{ libro.autores[0].nombre }}</strong>
+                    </p>
+                    <div class="stars-container">
+                        <p class="text-muted valMedia">Valoración media:
+                            <span class="star-rating">
+                                <i class="bi bi-star-fill text-warning"
+                                    *ngFor="let star of getStarsArray(libro.valoracionMedia)"></i>
+                                <i class="bi bi-star"
+                                    *ngFor="let star of getEmptyStarsArray(libro.valoracionMedia)"></i>
+                            </span>
+                            <strong> {{libro.valoracionMedia | number: '1.1-1'}}</strong>
+                        </p>
+                    </div>
+                    <p class="text-muted descripcion">
+                        {{ libro.descripcion }}
+                    </p>
+
+
+                    <!-- Detalles adicionales -->
+                    <div class="additional-info mb-4">
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div class="info-card">
+                                    <div class="info-title">Precio</div>
+                                    <div class="info-value" [style.view-transition-name]="'precio-libro-' + libro.id">
+                                        {{ libro.precio | currency:'EUR':'symbol':'1.2-2' }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-card" [ngClass]="{'text-danger': libro.stock < 5}">
+                                    <div class="info-title">Stock</div>
+                                    <div class="info-value">
+                                        {{ libro.stock }}
+                                        <small *ngIf="libro.stock < 5" class="stock-warning">¡Últimas unidades!</small>
+                                        <small *ngIf="libro.stock === 0" class="stock-warning">¡No hay stock!</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción (solo si cliente)-->
+                    <div *ngIf="authService.esUsuario"
+                        class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-5">
+                        <button class="btn btn-primary" (click)="addToCart()" [disabled]="agregandoAlCarrito">
+                            <i class="bi"
+                                [ngClass]="{'bi-cart-plus': !agregandoAlCarrito, 'bi-hourglass-split': agregandoAlCarrito}"></i>
+                            {{agregandoAlCarrito ? ' Añadiendo...' : ' Añadir al carrito'}}
+                        </button>
+                        <button class="btn" [ngClass]="{'btn-danger': esFavorito, 'btn-outline-danger': !esFavorito}"
+                            (click)="toggleFavorito()" [disabled]="verificandoFavorito">
+                            <i class="bi" [ngClass]="{'bi-heart-fill': esFavorito, 'bi-heart': !esFavorito}"></i>
+                            {{ esFavorito ? ' Quitar de favoritos' : ' Añadir a favoritos' }}
+                        </button>
+                        <!--
+                        <a [routerLink]="['/libro', libro.id, 'comprar']" class="btn btn-success">
+                            <i class="bi bi-credit-card me-2"></i>Comprar ahora
+                        </a> -->
+                    </div>
+
+                    <!-- Botones de acción (solo si admin) -->
+                    <div *ngIf="authService.esAdmin"
+                        class="d-flex flex-column flex-sm-row justify-content-end gap-4 mb-5">
+                        <button *ngIf="libro" class="btn btn-warning" [routerLink]="['/libro/form', libro.id]">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button *ngIf="libro" class="btn btn-danger" (click)="delete(libro)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valoraciones-->
+
+            <div class="row">
+                <div class="card-header bg-transparent text-center">
+                    <h3 class="mb-0">Valoraciones</h3>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="libro.valoraciones && libro.valoraciones.length === 0" class="alert alert-info">
+                        Este libro aún no tiene valoraciones.
+                    </div>
+                    <div class="card mb-3" *ngFor="let valoracion of valoracionesFiltradas">
+                        <div class="card-body">
+                            <a [routerLink]="['/usuario', valoracion.usuario?.id]">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="card-title">{{ valoracion.usuario?.nombre }} {{
+                                            valoracion.usuario?.apellido }}</h5>
+                                        <h6 class="text-muted">
+                                            {{ valoracion.usuario?.email }}
+                                        </h6>
+                                    </div>
+                                    <div class="stars-container">
+                                        <span class="star-rating">
+                                            <i class="bi bi-star-fill text-warning"
+                                                *ngFor="let star of getStarsArray(valoracion.puntuacion)"></i>
+                                            <i class="bi bi-star"
+                                                *ngFor="let star of getEmptyStarsArray(valoracion.puntuacion)"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <p class="card-text mt-3">
+                                    <i class="bi bi-quote"></i>
+                                    {{ valoracion.comentario }}
+                                    <i class="bi bi-quote"></i>
+                                </p>
+
+                                <small class="text-muted">
+                                    {{ valoracion.fecha | date:'dd/MM/yyyy' }}
+                                </small>
+                            </a>
+                            <div *ngIf="authService.esAdmin" class="d-flex justify-content-end gap-2 mt-3">
+                                <button type="button" name="editar" [routerLink]="['/valoracion/form', valoracion.id]"
+                                    class="btn btn-secondary text-nowrap">
+                                    <i class="bi bi-pencil me-2"></i>Editar
+                                </button>
+                                <button type="button" name="eliminar" (click)="deleteValoracion(valoracion)"
+                                    class="btn btn-danger text-nowrap">
+                                    <i class="bi bi-person-x me-2"></i>Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paginador de valoraciones -->
+                    <div class="row" *ngIf="libro.valoraciones && libro.valoraciones.length > pageSizeValoraciones">
+                        <div class="col-12">
+                            <!-- Paginador personalizado para valoraciones -->
+                            <ul class="pagination pagination-sm flex-wrap justify-content-center my-4">
+                                <li [ngClass]="paginadorValoraciones.first ? 'disabled page-item' : 'page-item'">
+                                    <a href="javascript:void(0)" (click)="cambiarPaginaValoraciones(0)"
+                                        class="page-link">Primera</a>
+                                </li>
+                                <li *ngIf="paginadorValoraciones.number > 0" class="page-item">
+                                    <a href="javascript:void(0)"
+                                        (click)="cambiarPaginaValoraciones(paginadorValoraciones.number-1)"
+                                        class="page-link">&laquo;</a>
+                                </li>
+                                <li *ngFor="let pagina of [].constructor(paginadorValoraciones.totalPages); let i = index"
+                                    [ngClass]="i == paginadorValoraciones.number ? 'active page-item' : 'page-item'">
+                                    <span *ngIf="i == paginadorValoraciones.number" class="page-link">{{ i + 1 }}</span>
+                                    <a *ngIf="i != paginadorValoraciones.number" href="javascript:void(0)"
+                                        (click)="cambiarPaginaValoraciones(i)" class="page-link">{{ i + 1 }}</a>
+                                </li>
+                                <li *ngIf="paginadorValoraciones.number < paginadorValoraciones.totalPages-1"
+                                    class="page-item">
+                                    <a href="javascript:void(0)"
+                                        (click)="cambiarPaginaValoraciones(paginadorValoraciones.number+1)"
+                                        class="page-link">&raquo;</a>
+                                </li>
+                                <li [ngClass]="paginadorValoraciones.last ? 'disabled page-item' : 'page-item'">
+                                    <a href="javascript:void(0)"
+                                        (click)="cambiarPaginaValoraciones(paginadorValoraciones.totalPages-1)"
+                                        class="page-link">Última</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Te puede interesar-->
+            <div class="row mt-5">
+                <div class="card-header bg-transparent text-center">
+                    <h3 class="mb-0">También te puede interesar</h3>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="librosRelacionados.length === 0" class="alert alert-info">
+                        No hay libros relacionados disponibles en este momento.
+                    </div>
+                    <div *ngIf="librosRelacionados.length > 0" class="carousel-container position-relative"
+                        (mouseenter)="onCaroruselMouseEnter()" (mouseleave)="onCaroruselMouseLeave()">
+                        <button *ngIf="showPrevButton" class="carousel-control-prev" type="button"
+                            (click)="prevSlide()">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+                        <button *ngIf="showNextButton" class="carousel-control-next" type="button"
+                            (click)="nextSlide()">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                        <div class="carousel-inner">
+                            <div class="row">
+                                <div class="col-md-3 mb-4"
+                                    *ngFor="let libro of librosRelacionados.slice(currentSlide, currentSlide + slidesPerView)">
+                                    <div class="card h-100 book-card" (click)="verDetallesLibro(libro.id)">
+                                        <div class="book-img">
+                                            <img [src]="libro.imagen || '/img/libroEjemplo.jpg'" [alt]="libro.titulo"
+                                                class="card-img-top">
+                                            <!--Icono de tick para libros comprados-->
+                                            <div *ngIf="authService.estaLogueado() && haCompradoLibro(libro.id)"
+                                                class="position-absolute top-0 end-0 p-2">
+                                                <i class="bi bi-patch-check-fill text-primary fs-4"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{libro.titulo}}</h5>
+                                            <p class="card-text text-muted">
+                                                {{ libro.autores[0].nombre }}
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>{{ libro.precio | currency:'EUR':'symbol':'1.2-2' }}</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

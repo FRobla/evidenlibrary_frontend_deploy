@@ -1,0 +1,158 @@
+.container2 {
+    margin: 20px;
+}
+
+/*Controles carrusel*/
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: grey;
+    border-radius: 50%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev {
+    float: left;
+}
+
+.carousel-control-next {
+    float: right;
+}
+
+/*cards*/
+.card {
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    cursor: pointer;
+}
+
+.card-img-top {
+    aspect-ratio: 2/3;
+    width: 100%;
+    object-fit: cover;
+    max-height: 350px;
+}
+
+.col-lg-2-4 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    padding: 0 0.5rem;
+}
+
+.container {
+    padding-bottom: 50px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .category {
+        flex-basis: 100%;
+    }
+
+    .category-books {
+        padding-left: 0;
+    }
+
+    .col-lg-2-4 {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+
+    .card {
+        max-width: 230px;
+    }
+
+    .book-grid {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .book-item {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .category h2 {
+        font-size: 1.5rem;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+        background-color: rgba(0, 0, 0, 0);
+        height: 100%;
+        top: 0;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgba(128, 128, 128, 0.7);
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .row-cols-1>* {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .row-cols-sm-2>* {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .category h2 {
+        font-size: 1.5rem;
+    }
+
+    .col-lg-2-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .book-grid {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -0.5rem;
+    }
+
+    .book-item {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 0.5rem;
+    }
+
+    .carousel-item .row {
+        flex-wrap: wrap;
+    }
+
+    .card {
+        max-width: 100%;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+        background-color: rgba(0, 0, 0, 0);
+        height: 100%;
+        top: 0;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: rgba(128, 128, 128, 0.7);
+        padding: 15px;
+    }
+}

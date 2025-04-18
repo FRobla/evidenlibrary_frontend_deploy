@@ -1,0 +1,150 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+
+        <!-- Primera fila: dropdown, búsqueda y botones -->
+        <div class="nav-row d-flex justify-content-between align-items-center w-100">
+
+            <!-- Menú de categorías -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="bi bi-list me-2"></i>
+                </button>
+                <ul class="dropdown-menu">
+
+                    <!-- Categorías 
+                    <li *ngFor="let categoria of categorias">
+                        <a class="dropdown-item" href="#">{{ categoria.nombre }}</a>
+                    </li> -->
+
+                    <!-- Páginas principales -->
+                    <li>
+                        <a class="dropdown-item" routerLink="/principal" routerLinkActive="active">Principal</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/libros" routerLinkActive="active">Libros</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/autores" routerLinkActive="active">Autores</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/generos" routerLinkActive="active">Géneros</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/valoraciones" routerLinkActive="active">Valoraciones</a>
+                    </li>
+                    <div *ngIf="authService.esAdmin">
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/admin" routerLinkActive="active">Admin</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/usuarios" routerLinkActive="active">Usuarios</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/favoritos" routerLinkActive="active">Favoritos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/carritos" routerLinkActive="active">Carrito</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/pedidos" routerLinkActive="active">Pedidos</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/libro/form" routerLinkActive="active">Form Libro</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/autor/form" routerLinkActive="active">Form Autor</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/genero/form" routerLinkActive="active">Form Genero</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/valoracion/form" routerLinkActive="active">Form
+                                Valoracion</a>
+                        </li>
+                    </div>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/login" routerLinkActive="active">Login</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" (click)="logout()" routerLinkActive="active">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Logo -->
+            <div class="logo-container me-2">
+                <img src="/img/logo.png" alt="Logo" class="header-logo" [routerLink]="['/principal']">
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="flex-grow-1">
+                <app-search (search)="onSearch($event)"></app-search>
+            </div>
+
+            <!-- Iconos de usuario, favoritos y carrito (visibles en pantallas grandes) -->
+            <div class="d-none d-sm-flex gap-3">
+                <div *ngIf="getLogueado()">
+                    <a *ngIf="userId && userId > 0" [routerLink]="['/detalles-usuario', userId]"
+                        class="btn btn-link text-decoration-none text-dark">
+                        <i class="bi bi-person-circle mx-2"></i> <span class="d-none d-md-inline">Perfil</span>
+                    </a>
+                    <a *ngIf="authService.esUsuario" [routerLink]="['/mis-favoritos']"
+                        class="btn btn-link text-decoration-none text-dark">
+                        <i class="bi bi-heart-fill mx-2"></i> <span class="d-none d-md-inline">Favoritos</span>
+                    </a>
+                    <a *ngIf="authService.esAdmin" (click)="logout()"
+                        class="btn btn-link text-decoration-none text-dark">
+                        <i class="bi bi-door-open-fill"></i> Cerrar sesión
+                    </a>
+                    <a *ngIf="authService.esUsuario" [routerLink]="['/mi-carrito']" class="btn btn-link text-dark">
+                        <i class="bi bi-cart4 mx-2"></i>
+                        <span class="badge bg-danger">{{ cartItemCount }}</span>
+                    </a>
+                </div>
+
+                <!-- Si no esta logeado -->
+                <div *ngIf="!getLogueado()">
+                    <a [routerLink]="['/login']" class="btn btn-link text-decoration-none text-dark">
+                        <i class="bi bi-person-circle"></i> Iniciar sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segunda fila: iconos centrados (solo visible en móvil) -->
+        <div class="nav-bottom-row d-sm-none d-flex justify-content-center gap-3 w-100 pt-2">
+            <div *ngIf="getLogueado()">
+                <a *ngIf="userId && userId > 0" [routerLink]="['/detalles-usuario', userId]"
+                    class="btn btn-link text-decoration-none text-dark">
+                    <i class="bi bi-person-circle"></i> Perfil
+                </a>
+                <a *ngIf="authService.esUsuario" [routerLink]="['/mis-favoritos']"
+                    class="btn btn-link text-decoration-none text-dark">
+                    <i class="bi bi-heart-fill"></i> Favoritos
+                </a>
+                <a *ngIf="authService.esAdmin" (click)="logout()" class="btn btn-link text-decoration-none text-dark">
+                    <i class="bi bi-door-open-fill"></i> Cerrar sesión
+                </a>
+                <a *ngIf="authService.esUsuario" [routerLink]="['/mi-carrito']" class="btn btn-link text-dark">
+                    <i class="bi bi-cart4 mx-2"></i>
+                    <span class="badge bg-danger">{{ cartItemCount }}</span>
+                </a>
+            </div>
+
+            <!-- Si no esta logeado -->
+            <div *ngIf="!getLogueado()" class="d-flex align-items-center">
+                <a [routerLink]="['/login']"
+                    class="btn btn-primary rounded-pill px-4 py-2 text-white d-flex align-items-center">
+                    <i class="bi bi-person-circle me-2"></i> Iniciar sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

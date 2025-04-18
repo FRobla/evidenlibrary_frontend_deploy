@@ -1,0 +1,23 @@
+<ul *ngIf="paginas?.length != 0" class="pagination pagination-sm flex-wrap justify-content-center my-4">
+    
+    <li [ngClass]="paginador.first ? 'disabled page-item' : 'page-item'">
+        <a [routerLink]="[getRouteBase()]" [queryParams]="getQueryParams(0)" class="page-link">Primera</a>
+    </li>
+
+    <li *ngIf="paginador.number > 0" class="page-item">
+        <a [routerLink]="[getRouteBase()]" [queryParams]="getQueryParams(paginador.number-1)" class="page-link">&laquo;</a>
+    </li>
+    
+    <li *ngFor="let pagina of paginas" [ngClass]="pagina-1 == paginador.number ? 'active page-item' : 'page-item'">
+        <span *ngIf="pagina-1 == paginador.number" class="page-link">{{ pagina }}</span>
+        <a *ngIf="pagina-1 != paginador.number" [routerLink]="[getRouteBase()]" [queryParams]="getQueryParams(pagina-1)" class="page-link">{{ pagina }}</a>
+    </li>
+
+    <li *ngIf="paginador.number < paginador.totalPages-1" class="page-item">
+        <a [routerLink]="[getRouteBase()]" [queryParams]="getQueryParams(paginador.number+1)" class="page-link">&raquo;</a>
+    </li>
+
+    <li [ngClass]="paginador.last ? 'disabled page-item' : 'page-item'">
+        <a [routerLink]="[getRouteBase()]" [queryParams]="getQueryParams(paginador.totalPages-1)" class="page-link">Última</a>
+    </li>
+</ul>

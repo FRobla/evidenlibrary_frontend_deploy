@@ -1,0 +1,28 @@
+<div class="container my-3">
+  <h2 class="text-center mb-4">Lista de Favoritos</h2>
+  <div class="alert alert-info" *ngIf="favoritos.length === 0">
+    No hay favoritos guardados.
+  </div>
+  <div class="accordion" id="favoritosAccordion">
+    <div class="card my-3" *ngFor="let grupo of favoritosAgrupados; let i = index">
+      <div class="card-header bg-white">
+        <h5 class="mb-0">
+          {{grupo.usuario?.nombre}} {{grupo.usuario?.apellido}}
+        </h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let item of grupo.libros"
+            class="list-group-item d-flex justify-content-between align-items-center border-0">
+            <div *ngIf="item.libro && item.fechaAgregado">
+              <p class="mb-0">{{item.libro.titulo}} - €{{item.libro.precio}}</p>
+              <small class="text-muted">Fecha: {{item.fechaAgregado | date:'dd/MM/yyyy'}}</small>
+            </div>
+            <a *ngIf="authService.esAdmin" [routerLink]="['/libro', item.libro?.id]" routerLinkActive="active"><button
+                class="btn btn-primary btn-sm">Ver</button></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,166 @@
+<div class="container my-5">
+    <!-- Encabezado de búsqueda -->
+    <div class="search-header mb-4">
+        <h2>Resultados para "{{searchTerm}}"</h2>
+    </div>
+
+    <!-- Estado de carga -->
+    <div class="loading-container" *ngIf="loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-3">Buscando resultados...</p>
+    </div>
+
+    <!-- Sin resultados -->
+    <div class="no-results" *ngIf="!loading && noResults">
+        <i class="bi bi-search-x display-1 text-muted"></i>
+        <h3>No se encontraron resultados</h3>
+        <p>Intenta con otros términos de búsqueda</p>
+    </div>
+
+    <!-- Resultados -->
+    <div *ngIf="!loading && !noResults">
+        <!-- Libros -->
+        <div *ngIf="results.libros?.length > 0" class="results-section">
+            <div class="section-header">
+                <i class="bi bi-book"></i>
+                <h3>Libros</h3>
+                <span class="badge bg-primary">{{results.libros.length}}</span>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div *ngFor="let libro of results.libros" class="col">
+                    <div class="card h-100 shadow-sm hover-card" (click)="getDetallesLibro(libro.id)">
+                        <img [src]="libro.imagen ? libro.imagen : '/img/libroEjemplo.jpg'" class="card-img-top"
+                            [alt]="'Imagen de '+libro.titulo">
+                        <div class="card-body">
+                            <h5 class="card-title">{{libro.titulo}}</h5>
+                            <p class="card-text text-muted">
+                                <span *ngIf="libro.autores.length > 0">Por {{libro.autores[0].nombre}}</span>
+                                <span *ngIf="libro.anio"> • {{libro.anio}}</span>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="price">{{libro.precio | currency:'EUR':'symbol':'1.2-2'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Autores -->
+        <div *ngIf="results.autores?.length > 0" class="results-section">
+            <div class="section-header">
+                <i class="bi bi-person"></i>
+                <h3>Autores</h3>
+                <span class="badge bg-primary">{{results.autores.length}}</span>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div *ngFor="let autor of results.autores" class="col">
+                    <div class="card h-100 shadow-sm hover-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{autor.nombre}}</h5>
+                            <p class="card-text">{{autor.biografia | slice:0:150}}...</p>
+                            <button class="btn btn-outline-primary"
+                                [routerLink]="['/libros/autor', autor.id, 'page', 0, 'size',8]">
+                                Ver sus libros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Libros del autor -->
+            <div *ngIf="searchType === 'autor' && librosRelacionados.length > 0" class="related-books mt-4">
+                <h4>Libros de {{results.autores[0].nombre}}</h4>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div *ngFor="let libro of librosRelacionados" class="col">
+                        <div class="card h-100 shadow-sm hover-card" (click)="getDetallesLibro(libro.id)">
+                            <img [src]="libro.imagen ? libro.imagen : '/img/libroEjemplo.jpg'" class="card-img-top"
+                                [alt]="'Imagen de '+libro.titulo">
+                            <div class="card-body">
+                                <h5 class="card-title">{{libro.titulo}}</h5>
+                                <p class="card-text text-muted">
+                                    <span *ngIf="libro.anio">{{libro.anio}}</span>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="price">{{libro.precio | currency:'EUR':'symbol':'1.2-2'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Géneros -->
+        <div *ngIf="results.generos?.length > 0" class="results-section">
+            <div class="section-header">
+                <i class="bi bi-tags"></i>
+                <h3>Géneros</h3>
+                <span class="badge bg-primary">{{results.generos.length}}</span>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div *ngFor="let genero of results.generos" class="col">
+                    <div class="card h-100 shadow-sm hover-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{genero.nombre}}</h5>
+                            <button class="btn btn-outline-primary" [routerLink]="['/generos']">
+                                Ver más
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Libros del género -->
+            <div *ngIf="searchType === 'genero' && librosRelacionados.length > 0" class="related-books mt-4">
+                <h4>Libros de género {{results.generos[0].nombre}}</h4>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div *ngFor="let libro of librosRelacionados" class="col">
+                        <div class="card h-100 shadow-sm hover-card" (click)="getDetallesLibro(libro.id)">
+                            <img [src]="libro.imagen ? libro.imagen : '/img/libroEjemplo.jpg'" class="card-img-top"
+                                [alt]="'Imagen de '+libro.titulo">
+                            <div class="card-body">
+                                <h5 class="card-title">{{libro.titulo}}</h5>
+                                <p class="card-text text-muted">
+                                    <span *ngIf="libro.autores.length > 0">Por {{libro.autores[0].nombre}}</span>
+                                    <span *ngIf="libro.anio"> • {{libro.anio}}</span>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="price">{{libro.precio | currency:'EUR':'symbol':'1.2-2'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Libros por año -->
+        <div *ngIf="searchType === 'anio' && librosRelacionados.length > 0" class="results-section">
+            <div class="section-header">
+                <i class="bi bi-calendar"></i>
+                <h3>Libros del año {{results.anios[0]}}</h3>
+                <span class="badge bg-primary">{{librosRelacionados.length}}</span>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div *ngFor="let libro of librosRelacionados" class="col">
+                    <div class="card h-100 shadow-sm hover-card" (click)="getDetallesLibro(libro.id)">
+                        <img [src]="libro.imagen ? libro.imagen : '/img/libroEjemplo.jpg'" class="card-img-top"
+                            [alt]="'Imagen de '+libro.titulo">
+                        <div class="card-body">
+                            <h5 class="card-title">{{libro.titulo}}</h5>
+                            <p class="card-text text-muted">
+                                <span *ngIf="libro.autores.length > 0">Por {{libro.autores[0].nombre}}</span>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="price">{{libro.precio | currency:'EUR':'symbol':'1.2-2'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

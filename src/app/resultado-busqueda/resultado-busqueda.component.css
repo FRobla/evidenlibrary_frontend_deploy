@@ -1,0 +1,161 @@
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.card.clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    margin-top: auto;
+}
+
+/* Efecto hover suave */
+.card.clickable:active {
+    transform: translateY(-2px);
+}
+
+.search-header {
+    text-align: center;
+    padding: 2rem 0;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.search-header h2 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.loading-container {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.no-results i {
+    margin-bottom: 1rem;
+}
+
+.results-section {
+    margin-bottom: 3rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.section-header i {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.section-header .badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.hover-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.results-section {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-header {
+        padding: 1.5rem 0;
+    }
+
+    .card-img-top {
+        height: 300px;
+    }
+
+    .section-header {
+        flex-wrap: wrap;
+    }
+}

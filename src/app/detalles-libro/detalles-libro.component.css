@@ -1,0 +1,364 @@
+/* Estilos para la tarjeta principal */
+.book-details {
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+}
+
+.book-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    text-decoration: underline;
+}
+
+.autor {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.autor:hover {
+    font-size: 1.2 rem;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.valMedia {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+
+.book-cover {
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-cover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Sección de descripción */
+.description-section {
+    margin-bottom: 2rem;
+    background-color: rgba(0, 123, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.description {
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Tarjetas de información (precio y stock) */
+.info-card {
+    text-align: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.info-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Alerta de stock bajo */
+.stock-warning {
+    display: block;
+    font-size: 0.8rem;
+    color: #dc3545;
+}
+
+/* Botones de acción */
+.btn {
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(33, 136, 56, 0.3);
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-danger:hover {
+    background-color: #e01212;
+    border-color: #c41e1e;
+}
+
+.btn-secondary:hover {
+    background-color: #444444;
+    border-color: #404040;
+}
+
+/* Efecto de transición para hover en badges */
+.badge {
+    transition: all 0.2s ease;
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.d-flex {
+    margin-top: auto;
+    /* Empuja los botones al fondo */
+}
+
+.mt-custom {
+    padding-top: 30px;
+    padding-bottom: 25px;
+}
+
+.descripcion {
+    font-style: italic;
+}
+
+/* Valoraciones */
+
+h5 {
+    color: black;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.stars-container {
+    min-width: 100px;
+}
+
+.star-rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+.star-rating i {
+    margin-right: 2px;
+}
+
+.bi-quote {
+    opacity: 0.5;
+    font-size: 0.9em;
+}
+
+.card-text {
+    font-style: italic;
+    color: #666;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*Te puede interesar*/
+.book-card {
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding: 0;
+}
+
+.book-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transform: translateY(-5px);
+}
+
+.book-img {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0;
+}
+
+.card-body {
+    padding: 1rem;
+    flex: 1;
+}
+
+/*Te puede interesar - card images*/
+.card-img-top {
+    aspect-ratio: 2 / 3;
+    width: 100%;
+    object-fit: cover;
+    max-height: 350px;
+}
+
+/*carrousel*/
+.carousel-container {
+    position: relative;
+    padding: 0 20px;
+    overflow: hidden;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+
+.carousel-control-prev:disabled,
+.carousel-control-next:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.carousel-inner {
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.6 ease-in-out;
+}
+
+.carousel-inner .row {
+    margin: 0;
+    width: 100%;
+    transition: transform 0.6 ease-in-out;
+}
+
+.col-12.col-sm-6.col-md-4.col-lg-3 .card {
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.col-12.col-sm-6.col-md-4.col-lg-3 .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    cursor: pointer;
+}
+
+@media (max-width: 767px) {
+    .book-card {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .book-img {
+        width: 100%;
+        height: 300px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .card-body {
+        padding: 0.75 rem;
+    }
+
+    .card-title {
+        font-size: 1 rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .book-card {
+        max-width: 250px;
+    }
+
+    .book-img {
+        width: 100%;
+        height: 250px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .card-body {
+        padding: 0.5rem;
+    }
+
+    .card-title {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .book-title {
+        font-size: 1.6rem;
+    }
+
+    .info-value {
+        font-size: 1.2rem;
+    }
+}

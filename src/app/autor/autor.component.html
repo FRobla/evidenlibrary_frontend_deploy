@@ -1,0 +1,47 @@
+<div class="container2 my-3">
+    <h2 class="text-center mb-4">Lista de Autores</h2>
+
+    <!-- Botón para crear autor y eliminar todos -->
+    <div *ngIf="authService.esAdmin" class="text-center mb-4 w-100">
+        <div class="btn-group gap-2 w-100">
+            <button class="btn btn-primary btn-lg" type="button" [routerLink]="['/autor/form']">
+                <i class="bi bi-journal-check me-2"></i>Crear autor
+            </button>
+            <button class="btn btn-danger btn-lg" type="button" (click)="deleteAll()" *ngIf="autores?.length != 0">
+                <i class="bi bi-person-x me-2"></i>Eliminar todos
+            </button>
+        </div>
+    </div>
+
+    <!-- Mensaje si no hay autores -->
+    <div class="alert alert-info" *ngIf="autores.length === 0">
+        No hay autores registrados.
+    </div>
+
+    <!-- Lista de autores -->
+    <ul class="list-unstyled">
+        <li *ngFor="let autor of autores"
+            class="mb-3 p-3 border rounded shadow-sm d-flex flex-column flex-md-row justify-content-between align-items-start">
+            <div class="mb-3 mb-md-0" style="cursor: pointer;" (click)="verLibrosAutor(autor.id)">
+                <h4 class="mb-2">{{ autor.nombre }}</h4>
+                <p class="text-muted">{{ autor.biografia }}</p>
+            </div>
+            <div *ngIf="authService.esAdmin" class="d-flex gap-2">
+                <button type="button" name="editar" [routerLink]="['/autor/form', autor.id]"
+                    class="btn btn-secondary text-nowrap">
+                    <i class="bi bi-pencil me-2"></i>Editar
+                </button>
+                <button type="button" name="eliminar" (click)="delete(autor)" class="btn btn-danger text-nowrap">
+                    <i class="bi bi-person-x me-2"></i>Eliminar
+                </button>
+            </div>
+        </li>
+    </ul>
+    
+    <!-- Paginador -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <paginator-nav *ngIf="paginador" [paginador]="paginador" [pageSize]="currentPageSize"></paginator-nav>
+        </div>
+    </div>
+</div>

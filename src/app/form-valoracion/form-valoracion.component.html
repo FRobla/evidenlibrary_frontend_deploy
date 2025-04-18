@@ -1,0 +1,151 @@
+<div class="container py-5">
+    <ul class="alert alert-danger" *ngIf="errors?.length != 0">
+        <div class="container">
+            <li *ngFor="let err of errors">{{ err }}</li>
+        </div>
+    </ul>
+
+    <div *ngIf="authService.estaLogueado()" class="card shadow-lg">
+        <div class="card-header">
+            <h5 *ngIf="!valoracion.id">Crear una Valoración</h5>
+            <h4 *ngIf="valoracion.id">Editar una Valoración</h4>
+        </div>
+        <div class="card-body">
+            <form #valoracionForm="ngForm">
+                <!-- Campo Usuario (solo para admin) -->
+                <div class="form-group row mb-4" *ngIf="!valoracion.id && authService.esAdmin">
+                    <label for="usuario" class="col-sm-3 col-form-label">Usuario:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control form-control-lg" [(ngModel)]="valoracion.usuario" name="usuario"
+
+                            #usuario="ngModel" (change)="onUsuarioChange()" required>
+
+                            <option [ngValue]="undefined">-- Seleccionar Usuario --</option>
+                            <option *ngFor="let user of usuarios" [ngValue]="user">
+                                {{ user.nombre }} {{ user.apellido }} ({{ user.email }})
+                            </option>
+                        </select>
+                        <div class="alert alert-danger mt-2"
+                            *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)">
+                            <div *ngIf="usuario.errors?.['required']">
+                                El usuario es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información del Usuario (modo edición o usuario normal) -->
+                <div class="form-group row mb-4" *ngIf="(valoracion.id || !authService.esAdmin) && valoracion.usuario">
+                    <label class="col-sm-3 col-form-label">Usuario:</label>
+                    <div class="col-sm-9">
+                        <div class="form-control-plaintext">
+                            <strong>{{ valoracion.usuario.nombre }} {{ valoracion.usuario.apellido }}</strong>
+                            <span *ngIf="valoracion.usuario.email">
+                                ({{ valoracion.usuario.email }})
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo Libro (solo para admin) -->
+                <div class="form-group row mb-4" *ngIf="!valoracion.id && authService.esAdmin">
+                    <label for="libro" class="col-sm-3 col-form-label">Libro:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control form-control-lg" [(ngModel)]="valoracion.libro" name="libro"
+                            #libro="ngModel" required (change)="onLibroChange()">
+                            <option [ngValue]="undefined">-- Seleccionar Libro --</option>
+                            <option *ngFor="let libro of libros" [ngValue]="libro">
+                                {{ libro.titulo }}
+                                <span *ngIf="libro.autores && libro.autores.length > 0">
+                                    ({{ libro.autores[0].nombre }})
+                                </span>
+                            </option>
+                        </select>
+                        <div class="alert alert-danger mt-2" *ngIf="libro.invalid && (libro.dirty || libro.touched)">
+                            <div *ngIf="libro.errors?.['required']">
+                                El libro es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información del Libro (modo edición o usuario normal) -->
+                <div class="form-group row mb-4" *ngIf="(valoracion.id || !authService.esAdmin) && valoracion.libro">
+                    <label class="col-sm-3 col-form-label">Libro:</label>
+                    <div class="col-sm-9">
+                        <div class="form-control-plaintext">
+                            <strong>{{ valoracion.libro.titulo }}</strong>
+                            <span *ngIf="valoracion.libro.autores && valoracion.libro.autores.length > 0">
+                                ({{ valoracion.libro.autores[0].nombre }})
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo Puntuación -->
+                <div class="form-group row mb-4">
+                    <label for="puntuacion" class="col-sm-3 col-form-label">Puntuación:</label>
+                    <div class="col-sm-9">
+                        <div class="star-rating-input mb-2">
+                            <i class="bi" *ngFor="let star of [1,2,3,4,5]"
+                                [ngClass]="{'bi-star-fill': star <= valoracion.puntuacion, 'bi-star': star > valoracion.puntuacion}"
+                                (click)="setRating(star)"
+                                style="font-size: 1.5rem; color: #ffc107; cursor: pointer; margin-right: 5px;"></i>
+                        </div>
+                        <input type="hidden" [(ngModel)]="valoracion.puntuacion" name="puntuacion" #puntuacion="ngModel"
+                            required min="1" max="5">
+                        <div class="alert alert-danger mt-2"
+                            *ngIf="puntuacion.invalid && (puntuacion.dirty || puntuacion.touched)">
+                            <div *ngIf="puntuacion.errors?.['required']">
+                                La puntuación es requerida
+                            </div>
+                            <div *ngIf="puntuacion.errors?.['min']">
+                                La puntuación mínima es 1
+                            </div>
+                            <div *ngIf="puntuacion.errors?.['max']">
+                                La puntuación máxima es 5
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo Comentario -->
+                <div class="form-group row mb-4">
+                    <label for="comentario" class="col-sm-3 col-form-label">Comentario:</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control form-control-lg" [(ngModel)]="valoracion.comentario"
+                            name="comentario" #comentario="ngModel" rows="3" placeholder="Añada un comentario..."
+                            minlength="10" maxlength="250" required></textarea>
+                        <div class="alert alert-danger mt-2"
+                            *ngIf="comentario.invalid && (comentario.dirty || comentario.touched)">
+                            <div *ngIf="comentario.errors?.['required']">
+                                El comentario es requerido
+                            </div>
+                            <div *ngIf="comentario.errors?.['minlength']">
+                                El comentario debe tener al menos 10 caracteres
+                            </div>
+                            <div *ngIf="comentario.errors?.['maxlength']">
+                                El comentario debe tener menos de 250 caracteres
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="form-group row mt-5">
+                    <div class="col-sm-9 offset-sm-3">
+                        <button class="btn btn-success me-3" role="button" (click)="create()" *ngIf="!valoracion.id"
+                            [disabled]="!valoracionForm.form.valid">
+                            <i class="bi bi-plus-lg"></i> Crear
+                        </button>
+
+                        <button class="btn btn-warning" role="button" (click)="update()" *ngIf="valoracion.id"
+                            [disabled]="!valoracionForm.form.valid">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="container my-5">
+    <div class="card shadow">
+        <div class="card-header bg-transparent border-0">
+            <h2 class="text-center my-3">Mis Favoritos</h2>
+        </div>
+
+        <div class="card-body">
+            <!-- Spinner de carga -->
+            <div *ngIf="cargando" class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando tus favoritos...</p>
+            </div>
+
+            <!-- Mensaje si no hay favoritos -->
+            <div *ngIf="!cargando && favoritos.length === 0" class="alert alert-info text-center my-4">
+                <i class="bi bi-heart" style="font-size: 2rem;"></i>
+                <p class="mt-3">No tienes libros guardados en favoritos.</p>
+                <a routerLink="/libros" class="btn btn-primary mt-2">
+                    <i class="bi bi-book me-2"></i>Explorar libros
+                </a>
+            </div>
+
+            <!-- Lista de favoritos -->
+            <div *ngIf="!cargando && favoritos.length > 0" class="row">
+                <div class="col-12 mb-4">
+                    <p class="text-muted">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Tienes <strong>{{ favoritos.length }}</strong> libros guardados en favoritos.
+                    </p>
+                </div>
+
+                <div class="col-md-6 col-lg-4 mb-4" *ngFor="let favorito of favoritos">
+                    <div class="card h-100 book-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img [src]="favorito.libro && favorito.libro.imagen ? favorito.libro.imagen : '/img/libroEjemplo.jpg'" 
+                                     class="img-fluid book-thumbnail me-3" 
+                                     alt="Imagen de {{ favorito.libro?.titulo }}"
+                                     style="width: 80px; height: 120px; object-fit: cover;">
+                                <div>
+                                    <h5 class="card-title mb-1">{{ favorito.libro?.titulo }}</h5>
+                                    <p class="text-muted small mb-1">
+                                        Por {{ getNombreAutor(favorito) }}
+                                    </p>
+                                    <p class="text-primary mb-0">
+                                        {{ favorito.libro?.precio | currency:'EUR':'symbol':'1.2-2' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="card-text small text-muted mb-3">
+                                Añadido el {{ favorito.fechaAgregado | date:'dd/MM/yyyy' }}
+                            </p>
+
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-outline-primary" 
+                                        (click)="verDetallesLibro(favorito.libro?.id!)">
+                                    <i class="bi bi-eye me-1"></i>Ver detalles
+                                </button>
+                                <button class="btn btn-outline-danger" 
+                                        (click)="eliminarFavorito(favorito)">
+                                    <i class="bi bi-trash me-1"></i>Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

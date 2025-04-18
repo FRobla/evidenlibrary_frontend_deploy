@@ -1,0 +1,72 @@
+
+    /* Gradiente para el encabezado */
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    }
+    
+    /* Estilos para los elementos de navegación */
+    .admin-nav .nav-item {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: #5a5c69;
+      transition: all 0.3s ease;
+      border-right: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .admin-nav .row div:nth-child(even) .nav-item {
+      border-right: none;
+    }
+    
+    .admin-nav .row div:nth-child(5) .nav-item,
+    .admin-nav .row div:nth-child(6) .nav-item {
+      border-bottom: none;
+    }
+    
+    .admin-nav .nav-item:hover {
+      color: #4e73df;
+      background-color: rgba(78, 115, 223, 0.05);
+      transform: translateY(-2px);
+    }
+    
+    .admin-nav .nav-item.active {
+      color: #4e73df;
+      background-color: rgba(78, 115, 223, 0.1);
+      position: relative;
+    }
+    
+    .admin-nav .nav-item.active::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background-color: #4e73df;
+    }
+    
+    /* Efectos de sombra mejorados */
+    .shadow {
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    }
+    
+    .shadow-sm {
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+    }
+    
+    /* Animaciones para mejorar la experiencia de usuario */
+    .admin-nav .nav-link {
+      transition: all 0.3s ease;
+      padding: 1.5rem 0.75rem !important;
+    }
+    
+    @media (max-width: 576px) {
+      .admin-nav .nav-link i {
+        font-size: 1.5rem !important;
+      }
+      
+      .admin-nav .nav-link {
+        padding: 1rem 0.5rem !important;
+      }
+    }

@@ -1,0 +1,91 @@
+<!-- Panel de Administración con Bootstrap 5 y CSS personalizado -->
+<div class="admin-dashboard">
+    <!-- Encabezado del panel -->
+    <div class="dashboard-header py-4 mb-4 bg-gradient-primary text-white shadow">
+      <div class="container">
+        <h2 class="fw-bold mb-0 text-center"><i class="fas fa-tachometer-alt me-2"></i>Panel de Administración</h2>
+      </div>
+    </div>
+    
+    <!-- Menú de navegación principal -->
+    <div *ngIf="authService.esAdmin" class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-0">
+              <nav class="admin-nav">
+                <div class="row g-0">
+                  <!-- Primera fila: Libros y Autores -->
+                  <div class="col-6">
+                    <a [routerLink]="['/libros']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-book fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Libros</span>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <div class="col-6">
+                    <a [routerLink]="['/autores']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-pencil fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Autores</span>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <!-- Segunda fila: Usuarios y Favoritos -->
+                  <div class="col-6">
+                    <a [routerLink]="['/usuarios']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-people fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Usuarios</span>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <div class="col-6">
+                    <a [routerLink]="['/favoritos']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-heart fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Favoritos</span>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <!-- Tercera fila: Carrito y Pedidos -->
+                  <div class="col-6">
+                    <a [routerLink]="['/carritos']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-cart3 fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Carritos</span>
+                      </div>
+                    </a>
+                  </div>
+                  
+                  <div class="col-6">
+                    <a [routerLink]="['/pedidos']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-bag-check fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Pedidos</span>
+                      </div>
+                    </a>
+                  </div>
+
+                  <!-- Cuarta fila: Valoraciones -->
+                  <div class="col-12">
+                    <a [routerLink]="['/valoraciones']" routerLinkActive="active" class="nav-item">
+                      <div class="nav-link text-center p-3">
+                        <i class="bi bi-star fs-3 d-block mb-2"></i>
+                        <span class="fw-bold">Valoraciones</span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
